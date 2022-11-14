@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.auto.AutoChooser;
+import frc.auto.routines.DriveSpin;
 import frc.looper.Looper;
 import frc.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -26,8 +28,7 @@ public class Robot extends TimedRobot {
   private Looper enabledLooper;
   private NemesisJoystick leftStick;
   private NemesisJoystick rightStick;
-
-
+  private AutoChooser chooser;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -36,6 +37,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     drivetrain = Drivetrain.getDriveInstance(pdp);
 
+    chooser = new AutoChooser(new DriveSpin());
+
     enabledLooper = new Looper(0.02); 
     enabledLooper.register(drivetrain::update);
     enabledLooper.startLoops();
@@ -43,22 +46,49 @@ public class Robot extends TimedRobot {
     leftStick = new NemesisJoystick(0, 0.10, 0.10);
     rightStick = new NemesisJoystick(1, 0.1, 0.1);
     drivetrain.zeroGyro();
+    drivetrain.outputOdometry();
 
   }
 
   @Override
-  public void teleopInit() {}
+  public void autonomousInit() {
+    drivetrain.startAuton();
+
+    // pick Auto
+    chooser.pickAuto("driveSpin");
+    chooser.initializeAuto();   
+  }
+
+  public void autonomousPeriodic() {
+      drivetrain.updateOdometry();  
+
+      // update Auto
+      chooser.updateAuto();
+  }
+
+
+  @Override
+  public void teleopInit() {
+
+  }
 
   @Override
   public void teleopPeriodic() {
-    drivetrain.inputHandler(leftStick.getXBanded(), leftStick.getYBanded(), rightStick.getXBanded());
+    drivetrain.inputHandler(-leftStick.getXBanded() /4, leftStick.getYBanded()/4, rightStick.getXBanded()/4);
+    drivetrain.outputOdometry();
+
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    drivetrain.stop();
+  }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    drivetrain.outputOdometry();
+
+  }
 
   @Override
   public void testInit() {}
@@ -66,4 +96,9 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}
+
+  public static Drivetrain getDrivetrainInstance(){
+    return drivetrain;
+  }
+
 }
