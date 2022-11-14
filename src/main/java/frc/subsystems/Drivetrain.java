@@ -230,12 +230,11 @@ public class Drivetrain implements RobotMap, Subsystem, DrivetrainSettings {
        gyro.setYaw(0);
       }
     public double getHeading() {
-        // gyro.getCompassHeading() 
         // return new Rotation2d(gyro.getYaw()).getDegrees();
         return gyro.getYaw(); 
     }
     public Rotation2d getHeadingRot(){
-        return new Rotation2d(gyro.getYaw());
+        return Rotation2d.fromDegrees(gyro.getYaw());
     }
     public void startAuton(){
         driveState = States.TRAJECTORY;
