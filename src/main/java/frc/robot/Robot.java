@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.auto.AutoChooser;
 import frc.auto.routines.DriveSpin;
+import frc.auto.routines.S_curve;
 import frc.looper.Looper;
 import frc.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -37,7 +38,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     drivetrain = Drivetrain.getDriveInstance(pdp);
 
-    chooser = new AutoChooser(new DriveSpin());
+    chooser = new AutoChooser(new S_curve());
 
     enabledLooper = new Looper(0.02); 
     enabledLooper.register(drivetrain::update);
@@ -55,7 +56,7 @@ public class Robot extends TimedRobot {
     drivetrain.startAuton();
 
     // pick Auto
-    chooser.pickAuto("driveSpin");
+    chooser.pickAuto("S_curve");
     chooser.initializeAuto();   
   }
 
