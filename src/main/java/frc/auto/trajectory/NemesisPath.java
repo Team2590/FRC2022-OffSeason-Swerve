@@ -1,5 +1,7 @@
 package frc.auto.trajectory;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -7,6 +9,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import frc.subsystems.Drivetrain;
 
@@ -15,10 +19,18 @@ public class NemesisPath {
     private boolean isStarted;
     private boolean isFinished;
     private Trajectory path;
-    public NemesisPath(TrajectoryConfig config, Pose2d initialPose, Pose2d finalPose2d, Translation2d[] waypoints){
+    public NemesisPath(TrajectoryConfig config, Path waypoints){
         isFinished = false;
         isStarted = false;
-        path = TrajectoryGenerator.generateTrajectory(initialPose, List.of(waypoints), finalPose2d, config); 
+        
+        try {
+            path = TrajectoryUtil.fromPathweaverJson(waypoints);
+            
+        } catch (IOException ex) {
+            DriverStation.reportError("Path not Found" , ex.getStackTrace());
+        }
+
+         
     }
     public void runPath(Drivetrain drivetrain){
         if(!isStarted){
