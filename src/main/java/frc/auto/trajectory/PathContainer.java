@@ -48,7 +48,7 @@ public class PathContainer implements DrivetrainSettings{
 
 
 
-        public static NemesisPath S_curve= new NemesisPath(TRAJECTORY_CONFIG, s_curvePath);
+        public static NemesisPath S_curve= new NemesisPath(TRAJECTORY_CONFIG, s_curveJSon);
 
 
 

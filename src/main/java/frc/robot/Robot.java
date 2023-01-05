@@ -57,7 +57,9 @@ public class Robot extends TimedRobot {
 
     // pick Auto
     chooser.pickAuto("S_curve");
+   
     chooser.initializeAuto();   
+     System.out.println("Auton Intialized");
   }
 
   public void autonomousPeriodic() {
