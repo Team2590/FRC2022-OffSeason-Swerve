@@ -18,13 +18,15 @@ public class NemesisPath {
     private final Timer timer = new Timer();
     private boolean isStarted;
     private boolean isFinished;
-    private Trajectory path;
+    private Trajectory path= new Trajectory();
     public NemesisPath(TrajectoryConfig config, Path waypoints){
         isFinished = false;
         isStarted = false;
         
         try {
             path = TrajectoryUtil.fromPathweaverJson(waypoints);
+            System.out.println("PATH INITIALIZED");
+            
             
         } catch (IOException ex) {
             DriverStation.reportError("Path not Found" , ex.getStackTrace());
@@ -35,10 +37,15 @@ public class NemesisPath {
     public void runPath(Drivetrain drivetrain){
         if(!isStarted){
             // start it
-            System.out.println("STARTING PATH");
+            System.out.println("STARTING PATH+RESETTING ODOMETRY");
+            drivetrain.resetOdometry(path.getInitialPose());
+            drivetrain.outputOdometry();
             timer.reset();
             timer.start();
+            
+            
             isStarted = true;
+            
         } 
         else if(isStarted) {
             // follow the path. Send command to drivetrain
@@ -47,6 +54,7 @@ public class NemesisPath {
             System.out.println("SAMPLE:");
             System.out.println(path.sample(currentTime));
             System.out.println(drivetrain);
+            System.out.println(path.sample(currentTime));
             drivetrain.followPath(path.sample(currentTime));   
         }
     }

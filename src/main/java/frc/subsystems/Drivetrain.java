@@ -191,12 +191,16 @@ public class Drivetrain implements RobotMap, Subsystem, DrivetrainSettings {
         }
         updateOdometry();
     }
-    public void followPath(State desiredPosition){
+    public void followPath(Trajectory.State desiredPosition){
         ChassisSpeeds calculatedCommand = driveController.calculate(odometry.getPoseMeters(), desiredPosition, new Rotation2d(0));
         pathfollowSpeeds = calculatedCommand;
     }
     public void updateOdometry(){
         odometry.update(getHeadingRot(),states[0], states[1], states[2], states[3] );
+    }
+
+    public void resetOdometry(Pose2d resetpose){
+        odometry.resetPosition(resetpose, getHeadingRot());
     }
 
     public void outputOdometry(){
