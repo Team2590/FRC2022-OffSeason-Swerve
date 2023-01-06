@@ -37,7 +37,9 @@ public class NemesisPath {
     public void runPath(Drivetrain drivetrain){
         if(!isStarted){
             // start it
-            System.out.println("STARTING PATH+RESETTING ODOMETRY");
+            System.out.println("STARTING PATH+RESETTING ODOMETRY+ENCODERS");
+            drivetrain.resetEncoder();
+
             drivetrain.resetOdometry(path.getInitialPose());
             drivetrain.outputOdometry();
             timer.reset();

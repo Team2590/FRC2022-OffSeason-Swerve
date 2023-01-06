@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.Encoder;
 
 
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -38,6 +39,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardContainer;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.ctre.phoenix.sensors.CANCoder;
 
 
 import java.nio.file.Path;
@@ -82,9 +84,18 @@ public class Drivetrain implements RobotMap, Subsystem, DrivetrainSettings {
     public DoubleSupplier odometryX; 
     public DoubleSupplier odometryY; 
     public DoubleSupplier odometryRot; 
+    public CANCoder BACK_RIGHT_ENCODER;
+    public CANCoder BACK_LEFT_ENCODER;
+    public CANCoder FRONT_RIGHT_ENCODER;
+    public CANCoder FRONT_LEFT_ENCODER; 
+    
     
     public Drivetrain(PowerDistribution pdp) {
-        
+        BACK_RIGHT_ENCODER=new CANCoder(11);
+        BACK_LEFT_ENCODER = new CANCoder(12);
+        FRONT_RIGHT_ENCODER= new CANCoder(10);
+        FRONT_LEFT_ENCODER=new CANCoder(9);
+
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
         mainTab = Shuffleboard.getTab("Main");
         // constructor 
@@ -172,7 +183,10 @@ public class Drivetrain implements RobotMap, Subsystem, DrivetrainSettings {
                 BACK_RIGHT_MODULE_STEER_ENCODER,
                 BACK_RIGHT_MODULE_STEER_OFFSET
         );
+
         swerveMods = new SwerveModule[]{frontLeftModule, frontRightModule, backLeftModule, backRightModule};
+        
+       
         
     }
     public void update(){
@@ -202,6 +216,17 @@ public class Drivetrain implements RobotMap, Subsystem, DrivetrainSettings {
     public void resetOdometry(Pose2d resetpose){
         odometry.resetPosition(resetpose, getHeadingRot());
     }
+    public void resetEncoder(){
+        FRONT_LEFT_ENCODER.setPosition(0);
+        FRONT_RIGHT_ENCODER.setPosition(0);
+        BACK_LEFT_ENCODER.setPosition(0);
+        BACK_RIGHT_ENCODER.setPosition(0);
+        
+        
+
+        
+
+    }
 
     public void outputOdometry(){
         SmartDashboard.putNumber("X Odometry", odometry.getPoseMeters().getX());
@@ -210,6 +235,7 @@ public class Drivetrain implements RobotMap, Subsystem, DrivetrainSettings {
         SmartDashboard.putNumber("Rotation Gyro", gyro.getYaw());
         // SmartDashboard.pu
     }
+
 
     public void inputHandler(double leftx, double lefty, double rightx) {
         driveState = States.DRIVE;
