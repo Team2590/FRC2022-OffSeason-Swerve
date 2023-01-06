@@ -14,12 +14,13 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import frc.subsystems.Drivetrain;
 
+
 public class NemesisPath {
     private final Timer timer = new Timer();
     private boolean isStarted;
     private boolean isFinished;
-    private Trajectory path= new Trajectory();
-    public NemesisPath(TrajectoryConfig config, Path waypoints){
+    private Trajectory path; 
+    public NemesisPath( Path waypoints){
         isFinished = false;
         isStarted = false;
         
@@ -44,8 +45,6 @@ public class NemesisPath {
             drivetrain.outputOdometry();
             timer.reset();
             timer.start();
-            
-            
             isStarted = true;
             
         } 

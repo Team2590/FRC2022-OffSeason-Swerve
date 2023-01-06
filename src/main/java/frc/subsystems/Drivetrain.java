@@ -112,7 +112,7 @@ public class Drivetrain implements RobotMap, Subsystem, DrivetrainSettings {
         driveController = new HolonomicDriveController(
             new PIDController(0.1, 0, 0), 
             new PIDController(0.1, 0, 0), 
-            new ProfiledPIDController(0.2, 0,0, new Constraints(2, 0.2)
+            new ProfiledPIDController(0.2, 0,0, new Constraints(0.5, 0.1)
         ));
         driveState = States.STOPPED;
 

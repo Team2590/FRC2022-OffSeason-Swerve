@@ -25,21 +25,8 @@ public class PathContainer implements DrivetrainSettings{
    
    
     static Translation2d[] S_array =new Translation2d[]{new Translation2d(1,1),new Translation2d(1,1.5)};
-    static String RoboRios_curveJSOn="paths/S curve part 1.wpilib.json";
-   
-   
-   
-   
-    static Path s_curveJSon=Path.of("C:\\Users\\ayan\\OffseasonSwerve\\PathWeaver\\output\\S curve part 1.wpilib.json");//This gets the local path
-    static Path moveForwardJSon=Path.of("C:\\Users\\ayan\\OffseasonSwerve\\PathWeaver\\output\\MoveForward");
+    static String RoboRios_curveJSOn="paths/output/ScurvePart1.wpilib.json";  
     static Path s_curvePath=Filesystem.getDeployDirectory().toPath().resolve(RoboRios_curveJSOn); //This gets the path from the src/main/deploy
-
-       
-    
-
-
-
-        
 
     TrajectoryConfig REVERSED_CONFIG = new TrajectoryConfig(3, 1)
         // Add kinematics to ensure max speed is actually obeyed
@@ -48,7 +35,7 @@ public class PathContainer implements DrivetrainSettings{
 
 
 
-        public static NemesisPath S_curve= new NemesisPath(TRAJECTORY_CONFIG, s_curveJSon);
+    public static NemesisPath S_curve= new NemesisPath(s_curvePath);
 
 
 
@@ -57,7 +44,7 @@ public class PathContainer implements DrivetrainSettings{
         // .addConstraint(autoVoltageConstraint);
 
         // Below will instantiate new paths 
-       public static NemesisPath moveForward = new NemesisPath(TRAJECTORY_CONFIG, moveForwardJSon);
+     
       
         
         /*

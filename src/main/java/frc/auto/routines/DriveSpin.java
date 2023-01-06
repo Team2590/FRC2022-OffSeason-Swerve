@@ -9,7 +9,7 @@ import frc.subsystems.Drivetrain;
 import frc.subsystems.DrivetrainSettings;
 
 public class DriveSpin extends AutoRoutine implements DrivetrainSettings{
-    NemesisPath forwardPath = PathContainer.moveForward;
+    
     Drivetrain driveT;
 
     public DriveSpin(){
@@ -33,7 +33,7 @@ public class DriveSpin extends AutoRoutine implements DrivetrainSettings{
     @Override
     public void update() {
         // TODO Auto-generated method stub
-        forwardPath.runPath(driveT);
+      
         // System.out.println("running auto");
         
     }
