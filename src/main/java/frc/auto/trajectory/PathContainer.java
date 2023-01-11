@@ -25,7 +25,8 @@ public class PathContainer implements DrivetrainSettings{
    
    
     static Translation2d[] S_array =new Translation2d[]{new Translation2d(1,1),new Translation2d(1,1.5)};
-    static String RoboRios_curveJSOn="paths/output/ScurvePart1.wpilib.json";  
+    static String RoboRios_curveJSOn="paths/output/AyanPath.wpilib.json";  
+    
     static Path s_curvePath=Filesystem.getDeployDirectory().toPath().resolve(RoboRios_curveJSOn); //This gets the path from the src/main/deploy
 
     TrajectoryConfig REVERSED_CONFIG = new TrajectoryConfig(3, 1)

@@ -112,7 +112,7 @@ public class Drivetrain implements RobotMap, Subsystem, DrivetrainSettings {
         driveController = new HolonomicDriveController(
             new PIDController(0.1, 0, 0), 
             new PIDController(0.1, 0, 0), 
-            new ProfiledPIDController(0.2, 0,0, new Constraints(0.5, 0.1)
+            new ProfiledPIDController(0.2, 0,0, new Constraints(3, 1)
         ));
         driveState = States.STOPPED;
 
@@ -234,6 +234,11 @@ public class Drivetrain implements RobotMap, Subsystem, DrivetrainSettings {
         SmartDashboard.putNumber("rotation Odometry", odometry.getPoseMeters().getRotation().getDegrees());
         SmartDashboard.putNumber("Rotation Gyro", gyro.getYaw());
         // SmartDashboard.pu
+    }
+    public void reset_all(Pose2d init){
+        resetEncoder();
+        resetOdometry(init);
+        zeroGyro();
     }
 
 

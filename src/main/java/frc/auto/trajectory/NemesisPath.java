@@ -39,10 +39,7 @@ public class NemesisPath {
         if(!isStarted){
             // start it
             System.out.println("STARTING PATH+RESETTING ODOMETRY+ENCODERS");
-            drivetrain.resetEncoder();
-
-            drivetrain.resetOdometry(path.getInitialPose());
-            drivetrain.outputOdometry();
+            drivetrain.reset_all(path.getInitialPose());
             timer.reset();
             timer.start();
             isStarted = true;
@@ -53,9 +50,9 @@ public class NemesisPath {
             double currentTime = timer.get();
             System.out.println("TIME: " + currentTime);
             System.out.println("SAMPLE:");
-            System.out.println(path.sample(currentTime));
-            System.out.println(drivetrain);
-            System.out.println(path.sample(currentTime));
+            // System.out.println(path.sample(currentTime));
+            //System.out.println(drivetrain);
+            //System.out.println(path.sample(currentTime));
             drivetrain.followPath(path.sample(currentTime));   
         }
     }
