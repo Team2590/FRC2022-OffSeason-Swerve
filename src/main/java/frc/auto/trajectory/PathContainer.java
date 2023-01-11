@@ -32,7 +32,7 @@ public class PathContainer implements DrivetrainSettings{
             moveForwardWaypoints
         );
 
-        // static Translation2d[] spinWaypoints = { new Pose2d(0.0,-5, new Rotation2d(2*Math.PI)) };
+        static Translation2d[] spinWaypoints = { new Translation2d(0.0,-5) };
         public static NemesisPath spinInPlace = new NemesisPath(TRAJECTORY_CONFIG,  
             endingPosition, 
             new Pose2d(0.0,-5, new Rotation2d(1*Math.PI)), 
