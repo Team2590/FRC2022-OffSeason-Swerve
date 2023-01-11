@@ -25,12 +25,12 @@ public interface DrivetrainSettings {
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 8; // FIXME Set front left module steer motor ID
     public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 9; // FIXME Set front left steer encoder ID
 
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(121.98 +1.4+0.5); // 119
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(121.98 +1.4+0.5+2.2); // 119
 
     public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 4; // FIXME Set front right drive motor ID
     public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 3; // FIXME Set front right steer motor ID
     public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 10; // FIXME Set front right steer encoder ID
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(103.26+1.8+0.17); //106
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(103.26+1.8+0.17-0.17); //106
 
     public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 7; // FIXME Set back left drive motor ID
     public static final int BACK_LEFT_MODULE_STEER_MOTOR = 6; // FIXME Set back left steer motor ID
@@ -40,7 +40,10 @@ public interface DrivetrainSettings {
     public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 5; // FIXME Set back right drive motor ID
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 0; // FIXME Set back right steer motor ID
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 11; // FIXME Set back right steer encoder ID
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(286.52+1.83+1.07); //295
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(286.52+1.83+1.07+2.64); //295
+
+    public static final double MAX_VELOCITY = 2;
+    public static final double MAX_ACCELERATION = 1;
 
     // kinematics
     public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(

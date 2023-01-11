@@ -1,4 +1,5 @@
 package frc.subsystems;
+
 import frc.robot.RobotMap;
 import frc.auto.trajectory.PathContainer;
 
@@ -38,7 +39,8 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardContainer;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import edu.wpi.first.wpilibj.Encoder;
+import com.ctre.phoenix.sensors.CANCoder;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -66,22 +68,27 @@ public class Drivetrain implements RobotMap, Subsystem, DrivetrainSettings {
     private ShuffleboardTab mainTab;
   
     public static Drivetrain getDriveInstance(PowerDistribution pdp) {
-      if (driveTrainInstance == null) {
-        driveTrainInstance = new Drivetrain(pdp);
-      }
-      return driveTrainInstance;
+        if (driveTrainInstance == null) {
+            driveTrainInstance = new Drivetrain(pdp);
+        }
+        return driveTrainInstance;
     }
     private enum States {
         STOPPED, DRIVE, TRAJECTORY
-      }
+    }
     private States driveState;
     private final SwerveDriveOdometry odometry;
     private SwerveModuleState[] states;
+    CANCoder frontLeft;
+    CANCoder frontRight;
+    CANCoder backLeft;
+    CANCoder backRight;
     public SwerveModule[] swerveMods;
 
     public DoubleSupplier odometryX; 
     public DoubleSupplier odometryY; 
-    public DoubleSupplier odometryRot; 
+    public DoubleSupplier odometryRot;
+
     
     public Drivetrain(PowerDistribution pdp) {
         
@@ -172,7 +179,11 @@ public class Drivetrain implements RobotMap, Subsystem, DrivetrainSettings {
                 BACK_RIGHT_MODULE_STEER_ENCODER,
                 BACK_RIGHT_MODULE_STEER_OFFSET
         );
-        swerveMods = new SwerveModule[]{frontLeftModule, frontRightModule, backLeftModule, backRightModule};
+        frontLeft = new CANCoder(9);
+        frontRight = new CANCoder(10);
+        backLeft = new CANCoder(12);
+        backRight = new CANCoder(11);
+     swerveMods = new SwerveModule[]{frontLeftModule, frontRightModule, backLeftModule, backRightModule};
         
     }
     public void update(){
@@ -229,6 +240,19 @@ public class Drivetrain implements RobotMap, Subsystem, DrivetrainSettings {
     public void zeroGyro() {
        gyro.setYaw(0);
       }
+    public void resetOdometry(Pose2d resetpose){
+        odometry.resetPosition(resetpose, getHeadingRot());
+
+    }
+    public void resetEncoder(){
+        frontRight.setPosition(0);
+        frontLeft.setPosition(0);
+        backLeft.setPosition(0);
+        backRight.setPosition(0);
+        resetOdometry(new Pose2d(0, 0, new Rotation2d(0)));
+        
+    }
+    
     public double getHeading() {
         // return new Rotation2d(gyro.getYaw()).getDegrees();
         return gyro.getYaw(); 

@@ -8,6 +8,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.subsystems.Drivetrain;
 
 public class NemesisPath {
@@ -22,8 +23,11 @@ public class NemesisPath {
     }
     public void runPath(Drivetrain drivetrain){
         if(!isStarted){
-            // start it
-            System.out.println("STARTING PATH");
+        // start it
+            System.out.println("STARTING PATH"+"reset encoders");
+            drivetrain.resetEncoder();
+            drivetrain.resetOdometry(path.getInitialPose());
+        
             timer.reset();
             timer.start();
             isStarted = true;
@@ -31,10 +35,9 @@ public class NemesisPath {
         else if(isStarted) {
             // follow the path. Send command to drivetrain
             double currentTime = timer.get();
-            System.out.println("TIME: " + currentTime);
-            System.out.println("SAMPLE:");
-            System.out.println(path.sample(currentTime));
-            System.out.println(drivetrain);
+            SmartDashboard.putNumber("Time:", currentTime);
+            SmartDashboard.putNumber("Sample X:", path.sample(currentTime).poseMeters.getX());
+            SmartDashboard.putNumber("Sample Y:", path.sample(currentTime).poseMeters.getY());
             drivetrain.followPath(path.sample(currentTime));   
         }
     }
@@ -42,6 +45,7 @@ public class NemesisPath {
         return isStarted;
     }
     public boolean getIsFinished(){
+        isFinished = timer.get() > path.getTotalTimeSeconds();
         return isFinished;
     }
     public void setWait(long duration){

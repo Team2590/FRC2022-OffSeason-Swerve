@@ -47,6 +47,7 @@ public class Robot extends TimedRobot {
     rightStick = new NemesisJoystick(1, 0.1, 0.1);
     drivetrain.zeroGyro();
     drivetrain.outputOdometry();
+    drivetrain.resetEncoder();
 
   }
 
@@ -74,8 +75,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    drivetrain.inputHandler(-leftStick.getXBanded() /4, leftStick.getYBanded()/4, rightStick.getXBanded()/4);
-    drivetrain.outputOdometry();
+    drivetrain.inputHandler(-leftStick.getXBanded() / 3, leftStick.getYBanded() / 3, rightStick.getXBanded() / 3);
+    drivetrain.outputOdometry(); 
 
   }
 
